@@ -1,6 +1,7 @@
 from groq import Groq
 import os
 from pypdf import PdfReader
+from dotenv import load_dotenv
 
 def pdf_reader(pdf):
     reader=PdfReader(pdf)
@@ -9,7 +10,8 @@ def pdf_reader(pdf):
     resume=page.extract_text()
     return resume
 
-client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+load_dotenv()
+client = Groq(api_key=os.getenv('GROQ_API_KEY'))
 
 def analyze_resume(resume):
     completion = client.chat.completions.create(
