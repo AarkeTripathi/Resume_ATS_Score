@@ -1,8 +1,8 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 import shutil
 import uvicorn
-import model
+from model import pdf_reader,analyze_resume
 
 app=FastAPI()
 
@@ -17,7 +17,7 @@ app.add_middleware(
 )
 
 @app.post("/upload_pdf/")
-async def upload_pdf(file: UploadFile = File(...)):
+async def upload_pdf(text: str = Form(...), file: UploadFile = File(...)):
     if file.content_type != "application/pdf":
         return {"error": "Only PDF files are allowed"}
 
@@ -26,8 +26,8 @@ async def upload_pdf(file: UploadFile = File(...)):
     with open(file_location, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
-    resume=model.pdf_reader(file_location)
-    ans=model.analyze_resume(resume)
+    resume=pdf_reader(file_location)
+    ans=analyze_resume(text,resume)
     return ans
 
 if __name__ == "__main__":
