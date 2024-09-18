@@ -18,7 +18,7 @@ def analyze_resume(job_desc,resume):
         messages=[
             {
                 "role": "user",
-                "content": f"Give me the ATS score of the resume {resume} out of 100 (just the numerical answer dont show the analysis) by takng the job description {job_desc}, and also give some suggestions to improve the resume"
+                "content": f"Give me the ATS score of the resume {resume} out of 100 (just the numerical answer dont show the analysis) by matching the job description {job_desc} with the resume provided, and also give some suggestions to improve the resume"
             }
         ],
         temperature=0.5,
